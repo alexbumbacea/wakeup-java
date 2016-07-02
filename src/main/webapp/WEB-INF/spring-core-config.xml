@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd ">
+
+    <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Manager"/>
+    <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Discovery"/>
+    <bean name="discoveryQueue" class="java.util.concurrent.LinkedBlockingQueue" />
+
+    <bean name="taskManager" class="java.util.concurrent.ThreadPoolExecutor">
+        <constructor-arg value="10" />
+        <constructor-arg value="10" />
+        <constructor-arg value="60" />
+        <constructor-arg>
+            <bean class="java.util.concurrent.TimeUnit" factory-method="valueOf">
+                <constructor-arg value="SECONDS" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg ref="discoveryQueue" />
+    </bean>
+</beans>
