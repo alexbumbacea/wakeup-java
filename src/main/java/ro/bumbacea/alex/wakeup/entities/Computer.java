@@ -1,20 +1,25 @@
 package ro.bumbacea.alex.wakeup.entities;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Computer")
 public class Computer {
-    protected Integer id;
+    @Column()
     protected String name = "localhost";
+    @Column()
     protected String IP = "127.0.0.1";
+
+    @Id
+    @Column()
     protected String MAC = "00:00:00:00:00:00:00";
+    @Column()
     protected String type = "Windows";
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

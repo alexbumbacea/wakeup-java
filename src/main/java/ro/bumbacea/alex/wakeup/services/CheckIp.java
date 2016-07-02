@@ -57,7 +57,7 @@ public class CheckIp implements Runnable {
     }
 
     private String getMacByIp(String ip) {
-        return "00:00";
+        return ip;
     }
 
     public boolean portIsOpen(String ip, int port, int timeout)  {

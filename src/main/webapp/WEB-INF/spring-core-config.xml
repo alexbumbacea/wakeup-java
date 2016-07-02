@@ -9,7 +9,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd ">
 
-    <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Manager"/>
+    <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Manager">
+        <constructor-arg ref="hibernate3AnnotatedSessionFactory" />
+    </bean>
     <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Discovery"/>
     <bean name="discoveryQueue" class="java.util.concurrent.LinkedBlockingQueue" />
 
@@ -23,5 +25,33 @@
             </bean>
         </constructor-arg>
         <constructor-arg ref="discoveryQueue" />
+    </bean>
+
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://192.168.99.100:3306/wol" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <!-- Hibernate 3 Annotation SessionFactory Bean definition-->
+    <bean id="hibernate3AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>ro.bumbacea.alex.wakeup.entities.Computer</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
     </bean>
 </beans>
