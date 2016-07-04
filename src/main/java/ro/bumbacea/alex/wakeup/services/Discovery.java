@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ro.bumbacea.alex.wakeup.entities.Net;
 
 import java.net.*;
+import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
@@ -15,6 +16,8 @@ public class Discovery {
 
     private Manager manager;
     private ExecutorService executor;
+    private AbstractQueue queue;
+
     @Autowired
     public void setManager(Manager manager) {
         this.manager = manager;
@@ -25,8 +28,16 @@ public class Discovery {
         this.executor = executor;
     }
 
+    @Autowired(required = true)
+    public void setExecutorQueue(AbstractQueue queue) {
+        this.queue = queue;
+    }
+
 
     public void autodiscover() {
+        if (!this.queue.isEmpty()) {
+            throw new RuntimeException("Autodiscovery already in progress");
+        }
 
         try {
             for(Net n:getNetworks()) {

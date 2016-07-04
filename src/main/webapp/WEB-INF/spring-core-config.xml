@@ -13,7 +13,7 @@
         <constructor-arg ref="hibernate3AnnotatedSessionFactory" />
     </bean>
     <bean autowire="byType" class="ro.bumbacea.alex.wakeup.services.Discovery"/>
-    <bean name="discoveryQueue" class="java.util.concurrent.LinkedBlockingQueue" />
+    <bean autowire="byType" name="discoveryQueue" class="java.util.concurrent.LinkedBlockingQueue" />
 
     <bean name="taskManager" class="java.util.concurrent.ThreadPoolExecutor">
         <constructor-arg value="10" />
