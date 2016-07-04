@@ -28,32 +28,35 @@
 </nav>
 
 <div class="container">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th class="hidden-phone hidden-tablet">Type</th>
-            <th>IP</th>
-            <th class="hidden-phone hidden-tablet">MAC</th>
-            <th colspan="2">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${computers}" var="computer">
-                <tr>
-                    <td>${computer.name}</td>
-                    <td>${computer.type}</td>
-                    <td>${computer.IP}</td>
-                    <td>${computer.MAC}</td>
-                    <td>
-                        <a class="btn btn-primary" href="">Wake</a>
-                        <a class="btn btn-default" href="">Check</a>
-                    </td>
-                </tr>
-            </c:forEach>
-        </tbody>
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
+    <c:if test="${not empty msg}">
+        <div class="alert alert-info">${msg}</div>
+    </c:if>
 
-    </table>
+    <form name='loginForm'
+          action="<c:url value='j_spring_security_check' />" method='POST'>
+
+        <table>
+            <tr>
+                <td>User:</td>
+                <td><input class="input-lg" type='text' name='username' value=''></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input class="input-lg" type='password' name='password' /></td>
+            </tr>
+            <tr>
+                <td colspan='2'><input class="btn btn-primary" name="submit" type="submit"
+                                       value="submit" /></td>
+            </tr>
+        </table>
+
+        <input type="hidden" name="${_csrf.parameterName}"
+               value="${_csrf.token}" />
+
+    </form>
 </div>
 <spring:url value="/resources/css/hello.js" var="coreJs"/>
 <spring:url value="/resources/css/bootstrap.min.js" var="bootstrapJs"/>
