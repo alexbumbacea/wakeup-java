@@ -3,7 +3,6 @@ package ro.bumbacea.alex.wakeup.services;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.stereotype.Service;
 import ro.bumbacea.alex.wakeup.entities.Computer;
 import java.util.ArrayList;

@@ -7,6 +7,7 @@ import ro.bumbacea.alex.wakeup.entities.Net;
 
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 
 @Service
@@ -45,18 +46,24 @@ public class Discovery {
 
     private ArrayList<Net> getNetworks() throws UnknownHostException, SocketException {
         ArrayList<Net> nets = new ArrayList<>();
-        InetAddress localHost = null;
-        localHost = Inet4Address.getLocalHost();
-        NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost);
-        NetworkInterface.getNetworkInterfaces();
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
-        for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+        while (networkInterfaces.hasMoreElements()) {
 
-            if (!(address.getAddress() instanceof Inet4Address)) {
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
+            if (networkInterface.isLoopback()) {
                 continue;
             }
-            nets.add(new Net(address.getAddress(), address.getNetworkPrefixLength()));
+
+            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+
+                if (!(address.getAddress() instanceof Inet4Address)) {
+                    continue;
+                }
+                nets.add(new Net(address.getAddress(), address.getNetworkPrefixLength()));
+            }
         }
+
         return nets;
     }
 }
