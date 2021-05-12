@@ -15,7 +15,7 @@
         <jetty.web.port>8080</jetty.web.port>
         <spring.version>4.3.17.RELEASE</spring.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.security.version>5.2.10.RELEASE</spring.security.version>
     </properties>
     <repositories>
         <repository>
